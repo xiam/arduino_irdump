@@ -26,57 +26,51 @@ IRDump::IRDump()
 
 }
 
-bool IRDump::Capture(int pin, int minLength, int maxLength, unsigned int **signal, int maxPulses)
+void IRDump::Emit(int pin, unsigned int **signal, int kHz)
 {
-  int pulse;
+
+  TIMER_DISABLE_INTR;
+
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
+
+  TIMER_CONFIG_KHZ(kHz);
+
+  for (int pulse = 0; (*signal)[pulse] > 0; pulse++) {
+    if (pulse%2 == 0) {
+      TIMER_ENABLE_PWM;
+    } else {
+      TIMER_DISABLE_PWM;
+    }
+    delayMicroseconds((*signal)[pulse]);
+  }
+
+  TIMER_DISABLE_PWM;
+}
+
+bool IRDump::Capture(int pin, unsigned int **signal, int maxPulses, int pulseMaxLength)
+{
   unsigned long t, lt;
   bool mark;
-  bool capturing;
 
-  // pinMode(pin, INPUT);
+  int capturingType = LOW;
 
-  capturing = false;
+  mark = (digitalRead(pin) == capturingType);
 
-  do {
-    mark  = (digitalRead(pin) == LOW);
-    Serial.println(mark);
-
-    t = micros();
-    if (mark) {
-
-      if (!capturing) {
-        capturing = true;
-        pulse = 0;
-        (*signal)[pulse] = 0;
-        lt = 0;
+  if (mark) {
+    for (int pulse = 0; pulse < maxPulses; pulse++) {
+      t = micros();
+      while (digitalRead(pin) == capturingType) {
+        lt = micros();
+        if ((lt - t) > pulseMaxLength) {
+          (*signal)[pulse] = 0;
+          return true;
+        };
       }
-
-      // Odd pulses are for marks only.
-      if ((pulse % 2 != 0) || (*signal)[pulse] > maxLength) {
-        if ((*signal)[pulse] >= minLength) {
-          // Next signal.
-          (*signal)[++pulse] = 0;
-        }
-      }
-    } else {
-      // Even pulses are for spaces only.
-      if ((pulse % 2 == 0) || (*signal)[pulse] > maxLength) {
-        if ((*signal)[pulse] >= minLength) {
-          // Next signal.
-          (*signal)[++pulse] = 0;
-        }
-      }
+      capturingType = !capturingType;
+      (*signal)[pulse] = lt - t;
     }
-    if (pulse < maxPulses) {
-      if (lt > 0) {
-        (*signal)[pulse] += t - lt;
-      }
-      lt = t;
-    } else {
-      // Capture ended.
-      return true;
-    }
-  } while (capturing);
+  }
 
   return false;
 }

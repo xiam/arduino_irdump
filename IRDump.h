@@ -20,7 +20,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /*
- * Aknowledgements:
+ * Acknowledgements:
  *
  * I used these sources while learning how IR sensors and emitters work:
  *
@@ -44,10 +44,32 @@
 #include "WProgram.h"
 #endif
 
+// System's clock.
+#ifdef F_CPU
+  #define SYSCLOCK F_CPU
+#else
+  #define SYSCLOCK 16000000
+#endif
+
+#define TIMER_ENABLE_PWM     (TCCR2A |= _BV(COM2B1))
+#define TIMER_DISABLE_PWM    (TCCR2A &= ~(_BV(COM2B1)))
+
+#define TIMER_DISABLE_INTR   (TIMSK2 = 0)
+
+#define TIMER_CONFIG_KHZ(val) ({ \
+  const uint8_t pwmval = SYSCLOCK / 2000 / (val); \
+  TCCR2A = _BV(WGM20); \
+  TCCR2B = _BV(WGM22) | _BV(CS20); \
+  OCR2A = pwmval; \
+  OCR2B = pwmval / 3; \
+})
+
 class IRDump {
+private:
 public:
   IRDump();
-  bool Capture(int pin, int minLength, int maxLength, unsigned int **signal, int maxPulses);
+  bool Capture(int pin, unsigned int **signal, int maxPulses, int pulseMaxLength);
+  void Emit(int pin, unsigned int **signal, int kHz);
 };
 
 #endif
