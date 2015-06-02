@@ -26,7 +26,7 @@ IRDump::IRDump()
 
 }
 
-void IRDump::Emit(int pin, unsigned int **signal, int kHz)
+void IRDump::Emit(int pin, unsigned int *signal, int kHz)
 {
 
   TIMER_DISABLE_INTR;
@@ -36,24 +36,25 @@ void IRDump::Emit(int pin, unsigned int **signal, int kHz)
 
   TIMER_CONFIG_KHZ(kHz);
 
-  for (int pulse = 0; (*signal)[pulse] > 0; pulse++) {
+  for (int pulse = 0; signal[pulse] > 0; pulse++) {
     if (pulse%2 == 0) {
       TIMER_ENABLE_PWM;
     } else {
       TIMER_DISABLE_PWM;
     }
-    delayMicroseconds((*signal)[pulse]);
+    delayMicroseconds(signal[pulse]);
   }
 
   TIMER_DISABLE_PWM;
 }
 
-bool IRDump::Capture(int pin, unsigned int **signal, int maxPulses, int pulseMaxLength)
+bool IRDump::Capture(int pin, unsigned int *signal, int maxPulses, int pulseMaxLength)
 {
-  unsigned long t, lt;
+  unsigned int t, lt;
   bool mark;
 
   int capturingType = LOW;
+  pinMode(pin, INPUT);
 
   mark = (digitalRead(pin) == capturingType);
 
@@ -63,14 +64,41 @@ bool IRDump::Capture(int pin, unsigned int **signal, int maxPulses, int pulseMax
       while (digitalRead(pin) == capturingType) {
         lt = micros();
         if ((lt - t) > pulseMaxLength) {
-          (*signal)[pulse] = 0;
+          signal[pulse] = 0;
           return true;
         };
       }
       capturingType = !capturingType;
-      (*signal)[pulse] = lt - t;
+      signal[pulse] = lt - t;
     }
   }
 
   return false;
+}
+
+bool IRDump::Match(unsigned int *a, unsigned int *b, int threshold)
+{
+  unsigned int diff;
+  int i;
+
+  for (i = 0; a[i] > 0 && b[i] > 0; i++) {
+
+    if (a[i] > b[i]) {
+      diff = a[i] - b[i];
+    } else {
+      diff = b[i] - a[i];
+    }
+
+    if (diff > threshold) {
+      return false;
+    }
+
+  }
+
+
+  if (i < 1) {
+    return false;
+  }
+
+  return true;
 }

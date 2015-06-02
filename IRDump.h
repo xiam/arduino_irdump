@@ -68,8 +68,9 @@ class IRDump {
 private:
 public:
   IRDump();
-  bool Capture(int pin, unsigned int **signal, int maxPulses, int pulseMaxLength);
-  void Emit(int pin, unsigned int **signal, int kHz);
+  bool Match(unsigned int *a, unsigned int *b, int threshold);
+  bool Capture(int pin, unsigned int *signal, int maxPulses, int pulseMaxLength);
+  void Emit(int pin, unsigned int *signal, int kHz);
 };
 
 #endif
