@@ -27,6 +27,10 @@ public:
 };
 ```
 
+## Example project
+
+See [arduino_irdump_example][3] for a fully working example project.
+
 ## How to install
 
 Create new a folder named `MakerWorkshop` within the Arduino's library folder.
@@ -40,10 +44,6 @@ Download and uncompress the latest [.ZIP package][1], a folder named
 
 That's all! this library should be ready to use in your projects now. See the
 Arduino's documentation on [importing libraries][2] whenever you're in doubt.
-
-## Example project
-
-See [arduino_irdump_example][3] for a fully working example project.
 
 ## License
 
