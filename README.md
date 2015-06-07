@@ -1,9 +1,10 @@
 # IRDump library for Arduino
 
 The IRDump library provides utility functions for sending and receiving
-infrared pulses.
+infrared pulses, using this library you can sniff some signals sent by infrared
+remote controllers and craft your own signals too!
 
-### Usage
+## Usage
 
 ```c++
 class IRDump {
@@ -40,6 +41,10 @@ Download and uncompress the latest [.ZIP package][1], a folder named
 That's all! this library should be ready to use in your projects now. See the
 Arduino's documentation on [importing libraries][2] whenever you're in doubt.
 
+## Example project
+
+See [arduino_irdump_example][3] for a fully working example project.
+
 ## License
 
 > The MIT License (MIT)
@@ -67,3 +72,4 @@ Arduino's documentation on [importing libraries][2] whenever you're in doubt.
 
 [1]: https://github.com/makerworkshop/arduino_irdump/archive/master.zip
 [2]: http://www.arduino.cc/en/guide/libraries
+[3]: https://github.com/makerworkshop/arduino_irdump_example
