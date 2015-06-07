@@ -68,8 +68,19 @@ class IRDump {
 private:
 public:
   IRDump();
+
+  // Match returns true if the given signal `b` matches `a`. A `threshold`
+  // defined the error tolerance for each element of `a` and `b`.
   bool Match(unsigned int *a, unsigned int *b, int threshold);
+
+  // Capture reads data from the IR sensor given by `pin` and writes it to the
+  // `signal` array. The user must define the maximum number of pulses this
+  // signal will have (`maxPulses`) and the maximun lenght of each pulse
+  // (`pulseMaxLength`) in milliseconds.
   bool Capture(int pin, unsigned int *signal, int maxPulses, int pulseMaxLength);
+
+  // Emit sends a signal using the IR LED given by `pin` at a custom frequency
+  // (`kHz`).
   void Emit(int pin, unsigned int *signal, int kHz);
 };
 
