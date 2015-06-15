@@ -19,21 +19,9 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-/*
- * Acknowledgements:
- *
- * I used these sources while learning how IR sensors and emitters work:
- *
- *  http://learn.adafruit.com/ir-sensor/
- *  https://github.com/shirriff/Arduino-IRremote
- *  http://en.wikipedia.org/wiki/Apple_Remote
- *  http://techdocs.altium.com/display/ADRR/NEC+Infrared+Transmission+Protocol
- *
- * The code used for emitting signals was taken from the Arduino-IRremote
- * library, with some minor modifications.
- * See https://github.com/shirriff/Arduino-IRremote
- *
- * */
+// The IRDump library provides utility functions for sending and receiving
+// infrared pulses, using this library you can sniff some signals sent by
+// infrared remote controllers and craft your own signals too!
 
 #ifndef MAKERWORKSHOP_IRDUMP
 #define MAKERWORKSHOP_IRDUMP
@@ -69,19 +57,19 @@ private:
 public:
   IRDump();
 
-  // Match returns true if the given signal `b` matches `a`. A `threshold`
-  // defined the error tolerance for each element of `a` and `b`.
-  bool Match(unsigned int *a, unsigned int *b, int threshold);
+  // Match returns true if the given signal `input` matches `signal`. A
+  // `threshold` defines the maximum error tolerance.
+  bool Match(unsigned int *signal, unsigned int *input, int threshold);
 
-  // Capture reads data from the IR sensor given by `pin` and writes it to the
-  // `signal` array. The user must define the maximum number of pulses this
-  // signal will have (`maxPulses`) and the maximun lenght of each pulse
+  // Capture reads data from the IR sensor given by `irSensorPin` and writes it
+  // to the `signal` array. The user must define the maximum number of pulses
+  // this signal will have (`maxPulses`) and the maximun lenght of each pulse
   // (`pulseMaxLength`) in milliseconds.
-  bool Capture(int pin, unsigned int *signal, int maxPulses, int pulseMaxLength);
+  bool Capture(int irSensorPin, unsigned int *signal, int maxPulses, int pulseMaxLength);
 
-  // Emit sends a signal using the IR LED given by `pin` at a custom frequency
-  // (`kHz`).
-  void Emit(int pin, unsigned int *signal, int kHz);
+  // Emit sends a signal using the IR LED given by `irLedPin` at a custom
+  // frequency (`kHz`).
+  void Emit(int irLedPin, unsigned int *signal, int kHz);
 };
 
 #endif
