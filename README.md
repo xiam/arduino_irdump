@@ -45,6 +45,19 @@ Download and uncompress the latest [.ZIP package][1], a folder named
 That's all! this library should be ready to use in your projects now. See the
 Arduino's documentation on [importing libraries][2] whenever you're in doubt.
 
+## Acknowledgements
+
+I went through these sources while learning how IR sensors and emitters work:
+
+* http://learn.adafruit.com/ir-sensor/
+* https://github.com/shirriff/Arduino-IRremote
+* http://en.wikipedia.org/wiki/Apple_Remote
+* http://techdocs.altium.com/display/ADRR/NEC+Infrared+Transmission+Protocol
+
+The code used for emitting signals was taken from the
+[Arduino-IRremote](https://github.com/shirriff/Arduino-IRremote) library, with
+some minor modifications.
+
 ## License
 
 > The MIT License (MIT)

@@ -26,13 +26,13 @@ IRDump::IRDump()
 
 }
 
-void IRDump::Emit(int pin, unsigned int *signal, int kHz)
+void IRDump::Emit(int irLedPin, unsigned int *signal, int kHz)
 {
 
   TIMER_DISABLE_INTR;
 
-  pinMode(pin, OUTPUT);
-  digitalWrite(pin, LOW);
+  pinMode(irLedPin, OUTPUT);
+  digitalWrite(irLedPin, LOW);
 
   TIMER_CONFIG_KHZ(kHz);
 
@@ -48,20 +48,20 @@ void IRDump::Emit(int pin, unsigned int *signal, int kHz)
   TIMER_DISABLE_PWM;
 }
 
-bool IRDump::Capture(int pin, unsigned int *signal, int maxPulses, int pulseMaxLength)
+bool IRDump::Capture(int irSensorPin, unsigned int *signal, int maxPulses, int pulseMaxLength)
 {
   unsigned int t, lt;
   bool mark;
 
   int capturingType = LOW;
-  pinMode(pin, INPUT);
+  pinMode(irSensorPin, INPUT);
 
-  mark = (digitalRead(pin) == capturingType);
+  mark = (digitalRead(irSensorPin) == capturingType);
 
   if (mark) {
     for (int pulse = 0; pulse < maxPulses; pulse++) {
       t = micros();
-      while (digitalRead(pin) == capturingType) {
+      while (digitalRead(irSensorPin) == capturingType) {
         lt = micros();
         if ((lt - t) > pulseMaxLength) {
           signal[pulse] = 0;
@@ -76,25 +76,22 @@ bool IRDump::Capture(int pin, unsigned int *signal, int maxPulses, int pulseMaxL
   return false;
 }
 
-bool IRDump::Match(unsigned int *a, unsigned int *b, int threshold)
+bool IRDump::Match(unsigned int *signal, unsigned int *input, int threshold)
 {
   unsigned int diff;
   int i;
 
-  for (i = 0; a[i] > 0 && b[i] > 0; i++) {
-
-    if (a[i] > b[i]) {
-      diff = a[i] - b[i];
+  for (i = 0; signal[i] > 0 && input[i] > 0; i++) {
+    if (signal[i] > input[i]) {
+      diff = signal[i] - input[i];
     } else {
-      diff = b[i] - a[i];
+      diff = input[i] - signal[i];
     }
 
     if (diff > threshold) {
       return false;
     }
-
   }
-
 
   if (i < 1) {
     return false;
