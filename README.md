@@ -33,17 +33,13 @@ See [arduino_irdump_example][3] for a fully working example project.
 
 ## How to install
 
-Create new a folder named `MakerWorkshop` within the Arduino's library folder.
-If you're on a Mac it should be `Documents/Arduino/libraries/` on Linux it
-probably would be in `/usr/share/arduino/libraries/`. If that folder already
-exists you don't need to create it again.
-
-Download and uncompress the latest [.ZIP package][1], a folder named
-`arduino_irdump-master` will be created, rename the uncompressed folder to
-`arduino_irdump` and put it into your recently created `MakerWorkshop` folder.
-
-That's all! this library should be ready to use in your projects now. See the
-Arduino's documentation on [importing libraries][2] whenever you're in doubt.
+1. Download the latest [.ZIP package][1].
+1. From the *Sketch* > *Include Library* menu of the Arduino IDE choose *Add
+   .ZIP Library...*.
+1. Browse for the .ZIP file you've just downloaded.
+1. After the installation, you'll be able to include the header's library
+   easily from the *Sketch* > *Include Library* menu, just look for the new
+   *IRDump* action under *Contributed libraries*.
 
 ## Acknowledgements
 
