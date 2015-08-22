@@ -76,4 +76,4 @@ some minor modifications.
 
 [1]: https://github.com/makerworkshop/arduino_irdump/archive/master.zip
 [2]: http://www.arduino.cc/en/guide/libraries
-[3]: https://github.com/makerworkshop/arduino_irdump_example
+[3]: examples/CaptureAndReplay
