@@ -33,7 +33,7 @@ IRDump *irdumper;
 
 unsigned int signal[SIGNAL_MAX_SIZE];
 
-void printSignal(unsigned int signal[]) {
+void printSignal(unsigned int *signal) {
   unsigned int i;
   Serial.println("/* Begin signal. */");
   Serial.println("unsigned int signal[] = {");
@@ -66,8 +66,10 @@ void loop(void) {
 
   bool captured;
 
+  unsigned int *p = signal;
+
   // Tuned to capture signals from the Apple TV Remote.
-  captured = irdumper->Capture(PIN_IR_INPUT, signal, SIGNAL_MAX_SIZE, PULSE_MAX_LENGTH);
+  captured = irdumper->Capture(PIN_IR_INPUT, p, SIGNAL_MAX_SIZE, PULSE_MAX_LENGTH);
 
   if (captured) {
     Serial.println("A wild IR signal appeared!");
@@ -77,9 +79,10 @@ void loop(void) {
     delay(5000);
 
     Serial.println("Replaying captured signal...");
-    irdumper->Emit(PIN_IR_OUTPUT, signal, 38);
+    irdumper->Emit(PIN_IR_OUTPUT, p, 38);
 
     delay(1000);
     Serial.println("Done");
   }
+
 }
