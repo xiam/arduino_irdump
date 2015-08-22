@@ -29,7 +29,7 @@ public:
 
 ## Example project
 
-See [arduino_irdump_example][3] for a fully working example project.
+See the [CaptureAndReplay][3] example for a fully working demo project.
 
 ## How to install
 
