@@ -33,13 +33,8 @@ See [arduino_irdump_example][3] for a fully working example project.
 
 ## How to install
 
-1. Download the latest [.ZIP package][1].
-1. From the *Sketch* > *Include Library* menu of the Arduino IDE choose *Add
-   .ZIP Library...*.
-1. Browse for the .ZIP file you've just downloaded.
-1. After the installation, you'll be able to include the header's library
-   easily from the *Sketch* > *Include Library* menu, just look for the new
-   *IRDump* action under *Contributed libraries*.
+Download the latest [.ZIP package][1] and follow the official instructions on
+[importing a .ZIP library][2].
 
 ## Acknowledgements
 
