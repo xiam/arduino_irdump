@@ -27,14 +27,29 @@ public:
 };
 ```
 
-## Example project
+## Example projects
 
-See the [CaptureAndReplay][3] example for a fully working demo project.
+* [CaptureAndReplay][3] shows how to intercept and replay IR signals.
+* [Arduino Hexbug Spider](https://github.com/xiam/arduino_hexbug_spider) shows
+  how to control an Hexbug Spider with Arduino and an IR LED.
 
 ## How to install
 
 Download the latest [.ZIP package][1] and follow the official instructions on
 [importing a .ZIP library][2].
+
+If you're planning to hack on this library you can also clone this repo
+directly into your Arduino's library directory:
+
+```
+cd ~/Documents/Arduino/libraries
+git clone https://github.com/xiam/arduino_hexbug_spider.git
+```
+
+You can find this path on the Preferences dialog of Arduino IDE.
+
+![screen shot 2017-04-02 at 12 10 27](https://cloud.githubusercontent.com/assets/385670/24589267/6a50bc54-179d-11e7-8d90-abb52d1a6f75.png)
+
 
 ## Acknowledgements
 
@@ -53,7 +68,7 @@ some minor modifications.
 
 > The MIT License (MIT)
 >
-> Copyright (c) 2014-2015 José Carlos Nieto, https://menteslibres.net/xiam
+> Copyright (c) 2014-today José Carlos Nieto, https://menteslibres.net/xiam
 >
 > Permission is hereby granted, free of charge, to any person obtaining
 > a copy of this software and associated documentation files (the
